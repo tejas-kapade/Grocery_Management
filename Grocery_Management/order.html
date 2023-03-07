@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Products Page</title>
+    <style>
+      .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-left: 0;
+}
+#shopcart{
+    position:absolute;
+    right:5%;
+    top:5%;
+    margin-right: 0;
+    padding: 20px;
+}
+.product {
+  display: inline-block;
+  margin: 20px;
+  text-align: center;
+}
+
+.product img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product h2 {
+  margin-top: 10px;
+  left:0;
+}
+
+.product p {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.delete-button {
+  background-color: #f44336;
+}
+
+.receipt {
+    position: absolute;
+    width: 66%;
+    top:15%;
+    left:15%;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f2f2f2;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:last-child {
+  font-weight: bold;
+}
+
+td:first-child {
+  font-weight: bold;
+}
+
+#sidepanel{
+    position:absolute;
+    width:34%;
+    height:1400px;
+    top:0;
+    right:0;
+    background-image: linear-gradient(#fae46a8c,#fff);
+}
+
+    </style>
+  </head>
+  <body>
+  
+    <div id="sidepanel"></div>
+    <div class="container">
+      <h1 id="welcomename">Products</h1>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 1">
+        <h2>Product 1</h2>
+        <p>$19.99</p>
+        <button onclick="addToCart('Product 1', 19.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 2">
+        <h2>Product 2</h2>
+        <p>$24.99</p>
+        <button onclick="addToCart('Product 2', 24.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 3</h2>
+        <p>$29.99</p>
+        <button onclick="addToCart('Product 3', 29.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 4</h2>
+        <p>$99.99</p>
+        <button onclick="addToCart('Product 4', 99.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 5</h2>
+        <p>$78.99</p>
+        <button onclick="addToCart('Product 5', 78.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 6</h2>
+        <p>$04.99</p>
+        <button onclick="addToCart('Product 6', 4.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 7</h2>
+        <p>$41.99</p>
+        <button onclick="addToCart('Product 7', 41.99)">Add to List</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150x150" alt="Product 3">
+        <h2>Product 8</h2>
+        <p>$33.99</p>
+        <button onclick="addToCart('Product 8', 33.99)">Add to List</button>
+      </div>
+      
+      
+      
+    </div>
+    
+    <div id="shopcart">
+        <h2>Your Grocery List is here,</h2>
+      <ul id="cartList">
+      </ul>
+      <button onclick="order()" style="width: 50%;"id="orderbutton"><strong>Order</strong></button>
+    </div>
+    <div id="receipt"></div>
+    <button style='position:absolute;top:20%;right:20%;background:tomato;display: none;' id="cancelbutton" onclick="cancel()">CANCEL ORDER</button>
+
+    <script>
+let cart = [];
+const cancelbutton = document.getElementById('cancelbutton');
+var wname = document.getElementById("welcomename");
+
+wname.innerHTML = "Welcome to our shop!";
+
+function addToCart(productName, price) {
+  cart.push({
+    name: productName,
+    price: price
+  });
+
+  updateCart();
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+function updateCart() {
+  const cartList = document.getElementById("cartList");
+  cartList.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerText = `${item.name} - $${item.price}  __`;
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "Remove";
+    deleteButton.classList.add("delete-button");
+    deleteButton.addEventListener("click", () => {
+      removeItem(index);
+    });
+    li.appendChild(deleteButton);
+    cartList.appendChild(li);
+  });
+}
+
+const receiptDiv = document.getElementById("receipt");
+
+function order() {
+   cancelbutton.style.display = "block";
+
+  const totalPrice = cart.reduce((accumulator, item) => {
+    return accumulator + item.price;
+  }, 0);
+
+  const fee = totalPrice * 0.1;
+  const totalCost = totalPrice - fee;
+
+  
+  //receiptDiv.style.display=block;
+  receiptDiv.innerHTML = `
+    <div class="receipt">
+    <form method="post" action="order.php">
+      <h2>Receipt</h2>
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+        </tr>
+        ${cart.map((item) => {
+          return `
+            <tr>
+              <td>${item.name}</td>
+              <td>$${item.price.toFixed(2)}</td>
+            </tr>
+          `;
+        }).join("")}
+        <tr>
+          <td>Subtotal:</td>
+          <td>$${totalPrice.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td>Discount (10% OFF):</td>
+          <td>$${fee.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td name="cost">$${totalCost.toFixed(2)}</td>
+        </tr>
+      </table>
+      <input name="cost" value="${totalCost.toFixed(2)}" style="display:none"/>
+      <button style='background:#4CAF50;width:33%;position:relative;left:33%;font-size:1.2em;' type='submit'><strong>Proceed to Pay</strong></button>
+      </form>
+    </div>
+  `;
+  
+  cart = [];
+  updateCart();
+}
+ /*
+  const orderButton = document.getElementById("orderButton");
+  orderButton.disabled = true;
+  orderButton.innerText = "Ordering...";
+
+  const receipt = document.querySelector(".receipt");
+  const receiptHeight = receipt.offsetHeight;
+
+  receipt.style.height = "0";
+  receipt.style.overflow = "hidden";
+ 
+  setTimeout(() => {
+    receipt.style.height = receiptHeight + "px";
+  }, 100);
+
+  setTimeout(() => {
+    receipt.style.overflow = "visible";
+  }, 1000);
+}
+*/
+function cancel(){
+    receiptDiv.innerHTML="";
+    cancelbutton.style.display = "none";
+}
+    </script>
+  </body>
+</html>
